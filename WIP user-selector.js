@@ -1,14 +1,10 @@
-let users = [
-    //TODO INSERT DATA
-]
-
 const existingOverlay = document.getElementById("customOverlay");
 
 if (existingOverlay) {
     existingOverlay.remove(); 
 } else {
     const overlay = document.createElement("div");
-    overlay.id = "customOverlay"; 
+    overlay.id = "customOverlay"; // Assign an ID to track it
     overlay.style.cssText = `
         width: 100%;
         height: 100%;
