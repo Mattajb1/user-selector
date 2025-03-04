@@ -1,17 +1,18 @@
 let users = [
     {
+        "name": "Mortuary Staff",
         "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
         "teamId": [
             "-Lce1vH7Zf1KXxCwP6cc"
-        ],
-        "name": "Mortuary Staff"
+        ]
     },
     {
+        "name": "Thomas Cooper",
         "id": "0La5qocbqfTii4K6hH8zsCw5ZZK2",
         "teamId": [
-            "-LElVhUEMz4RrHz65hSw"
-        ],
-        "name": "Thomas Cooper"
+            "-LElVhUEMz4RrHz65hSw",
+            "1234"
+        ]
     }
     //TODO INSERT DATA
 ]
@@ -40,11 +41,52 @@ if (overlays.length > 0) {
     modal.appendChild(title);
 
     //User list (table)
-    const userList = document.createElement('table');
     if (users) {
-        userList.classList.add('overlay-element');
-        userList.id = 'user-list';
-        modal.appendChild(userList);
+        //TABLE
+        const userListTable = document.createElement('table');
+        userListTable.classList.add('overlay-element');
+        userListTable.id = 'user-list';
+        modal.appendChild(userListTable);
+
+        //HEAD TR
+        const userListHeadTr = document.createElement('tr');
+        userListHeadTr.classList.add('overlay-element');
+        userListTable.appendChild(userListHeadTr);
+
+        //HEAD TH
+        let headings = ["Name", "ID", "TeamID(s)"]
+        headings.forEach(heading =>{
+            let userListHeadTh = document.createElement('th');
+            userListHeadTh.classList.add('overlay-element');
+            userListHeadTh.textContent = heading;
+            userListHeadTr.appendChild(userListHeadTh);   
+        })
+
+        users.forEach(user => {
+            //TR
+            let userListTr = document.createElement('tr');
+            userListTr.classList.add('overlay-element');
+            userListTable.appendChild(userListTr);
+            
+            //TD - DATA HERE
+            Object.entries(user).forEach(([key, value]) => {
+                let userListTd = document.createElement('td');
+                userListTd.classList.add('overlay-element');
+            
+                if (Array.isArray(value)) {
+                    value.forEach(item => {
+                        const textNode = document.createTextNode(item);
+                        userListTd.appendChild(textNode);
+                        userListTd.appendChild(document.createElement('br'));
+                    });
+                } else {
+                    userListTd.textContent = value;  
+                }
+
+                userListTr.appendChild(userListTd);  
+            });
+            
+        })
     }
 
     //Style
@@ -84,9 +126,17 @@ if (overlays.length > 0) {
             }
 
             #user-list {
-                width: 100%
+                width: 100%;
                 border: 1px solid black;
                 background-color: #dedcdc
+            }
+
+            #user-list tr {
+                height: 30px;
+                border-bottom: 1px solid black;
+            }
+
+            #user-list td {
             }
         `;
         head.appendChild(style);
