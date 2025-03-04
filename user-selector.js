@@ -17,7 +17,7 @@ let users = [
     //TODO INSERT DATA
 ]
 
-const overlays = document.querySelectorAll('.overlay-element');
+let overlays = document.querySelectorAll('.overlay-element');
 
 if (overlays.length > 0) {
     overlays.forEach(overlay => overlay.remove())
@@ -39,6 +39,25 @@ if (overlays.length > 0) {
     title.classList.add('overlay-element');
     title.appendChild(document.createTextNode('FireHawk User Selector'));
     modal.appendChild(title);
+
+    // Search Bar (Insert Here)
+    const searchInput = document.createElement('input');
+    searchInput.classList.add('overlay-element');
+    searchInput.type = 'text';
+    searchInput.placeholder = 'Search users';
+    searchInput.id = 'search-input';
+    modal.appendChild(searchInput);
+
+    // Event Listener for Search
+    searchInput.addEventListener('input', function () {
+        let filter = searchInput.value.toLowerCase();
+        let rows = document.querySelectorAll('#user-list tr:not(:first-child)'); // Exclude header
+
+        rows.forEach(row => {
+            let text = row.innerText.toLowerCase();
+            row.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
 
     //User list (table)
     if (users) {
@@ -141,3 +160,11 @@ if (overlays.length > 0) {
         `;
         head.appendChild(style);
 }
+
+//Shortcuts
+    //Escape: Close modal
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            document.querySelectorAll('.overlay-element').forEach(overlay => overlay.remove());
+        }
+    });
