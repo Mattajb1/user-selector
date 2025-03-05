@@ -2,8 +2,7 @@
 WIP
 
 ### TODO:
-- Table has overflow not modal
-- Search bar
+- Fix sticky thead gap and border
 - Styling (css)
 - Link to database
 - Additional event listeners (arrow controls, x button, enter, esc)
