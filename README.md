@@ -2,7 +2,7 @@
 WIP
 
 ### TODO:
-- Table scrolls and does not cut out of modal
+- Table has overflow not modal
 - Search bar
 - Styling (css)
 - Link to database
