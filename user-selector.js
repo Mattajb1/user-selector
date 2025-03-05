@@ -7,6 +7,125 @@ let users = [
         ]
     },
     {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
+        "name": "Mortuary Staff",
+        "id": "0LQBgJYxuZZygUmjUjNybgMsMO53",
+        "teamId": [
+            "-Lce1vH7Zf1KXxCwP6cc"
+        ]
+    },
+    {
         "name": "Thomas Cooper",
         "id": "0La5qocbqfTii4K6hH8zsCw5ZZK2",
         "teamId": [
@@ -37,6 +156,7 @@ if (overlays.length > 0) {
     //Title
     const title = document.createElement('h2');
     title.classList.add('overlay-element');
+    title.id = 'title'
     title.appendChild(document.createTextNode('FireHawk User Selector'));
     modal.appendChild(title);
 
@@ -132,9 +252,10 @@ if (overlays.length > 0) {
                 padding: 15px;
                 z-index: 99999999;
                 box-sizing: border-box;
+                overflow: auto;
             }
 
-            h2 {
+            .overlay-element .title {
 				font-family: sans-serif;
 				font-weight: 700;
 				color: #000;
