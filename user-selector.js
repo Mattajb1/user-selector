@@ -222,17 +222,24 @@ if (overlays.length > 0) {
                 let userListTd = document.createElement('td');
                 userListTd.classList.add('overlay-element');
             
-                if (Array.isArray(value)) {
+                if (Array.isArray(value) && value.length > 1) {
                     value.forEach(item => {
                         const textNode = document.createTextNode(item);
                         userListTd.appendChild(textNode);
                         userListTd.appendChild(document.createElement('br'));
                     });
                 } else {
-                    userListTd.textContent = value;  
+                    if (key === 'teamId') {
+                        const link = document.createElement('a');
+                        link.textContent = value;
+                        link.setAttribute('href', 'https://www.google.com');
+                        userListTd.appendChild(link);
+                    } else {
+                        userListTd.textContent = value;
+                    }
                 }
 
-                userListTr.appendChild(userListTd);  
+                userListTr.appendChild(userListTd);
             });
             
         })
