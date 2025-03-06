@@ -181,16 +181,26 @@ if (overlays.length > 0) {
 
     //User list (table)
     if (users) {
+        //DIV (For overflow)
+        const userList = document.createElement('div');
+        userList.classList.add('overlay-element');
+        userList.id = 'user-list';
+        modal.appendChild(userList);
+
         //TABLE
         const userListTable = document.createElement('table');
         userListTable.classList.add('overlay-element');
-        userListTable.id = 'user-list';
-        modal.appendChild(userListTable);
+        userList.appendChild(userListTable);
+
+        //THEAD
+        const userListThead = document.createElement('thead');
+        userListThead.classList.add('overlay-element');
+        userListTable.appendChild(userListThead);
 
         //HEAD TR
         const userListHeadTr = document.createElement('tr');
         userListHeadTr.classList.add('overlay-element');
-        userListTable.appendChild(userListHeadTr);
+        userListThead.appendChild(userListHeadTr);
 
         //HEAD TH
         let headings = ["Name", "ID", "TeamID(s)"]
@@ -212,17 +222,24 @@ if (overlays.length > 0) {
                 let userListTd = document.createElement('td');
                 userListTd.classList.add('overlay-element');
             
-                if (Array.isArray(value)) {
+                if (Array.isArray(value) && value.length > 1) {
                     value.forEach(item => {
                         const textNode = document.createTextNode(item);
                         userListTd.appendChild(textNode);
                         userListTd.appendChild(document.createElement('br'));
                     });
                 } else {
-                    userListTd.textContent = value;  
+                    if (key === 'teamId') {
+                        const link = document.createElement('a');
+                        link.textContent = value;
+                        link.setAttribute('href', 'https://www.google.com');
+                        userListTd.appendChild(link);
+                    } else {
+                        userListTd.textContent = value;
+                    }
                 }
 
-                userListTr.appendChild(userListTd);  
+                userListTr.appendChild(userListTd);
             });
             
         })
@@ -252,7 +269,6 @@ if (overlays.length > 0) {
                 padding: 15px;
                 z-index: 99999999;
                 box-sizing: border-box;
-                overflow: auto;
             }
 
             .overlay-element .title {
@@ -267,6 +283,12 @@ if (overlays.length > 0) {
 
             #user-list {
                 width: 100%;
+                overflow: auto;
+                max-height: 500px;
+            }
+
+            #user-list table {
+                width: 100%;
                 border: 1px solid black;
                 background-color: #dedcdc
             }
@@ -276,7 +298,15 @@ if (overlays.length > 0) {
                 border-bottom: 1px solid black;
             }
 
-            #user-list td {
+            #user-list thead {
+                position: sticky;
+                top: 0;
+                background-color: #fff;
+                z-index: 100;
+            }
+
+            #user-list thead tr {
+                border: 1px solid black;
             }
         `;
         head.appendChild(style);
