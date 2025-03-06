@@ -144,7 +144,7 @@ if (overlays.length > 0) {
     //Shaded Background
     const background = document.createElement('div');
     background.classList.add('overlay-element');
-    background.id = 'background'; 
+    background.id = 'background';
     document.body.appendChild(background);
 
     //Modal
@@ -203,12 +203,12 @@ if (overlays.length > 0) {
         userListThead.appendChild(userListHeadTr);
 
         //HEAD TH
-        let headings = ["Name", "ID", "TeamID(s)"]
+        let headings = ["Name", "ID", "TeamID(s)", 'Test']
         headings.forEach(heading =>{
             let userListHeadTh = document.createElement('th');
             userListHeadTh.classList.add('overlay-element');
             userListHeadTh.textContent = heading;
-            userListHeadTr.appendChild(userListHeadTh);   
+            userListHeadTr.appendChild(userListHeadTh);
         })
 
         users.forEach(user => {
@@ -216,23 +216,34 @@ if (overlays.length > 0) {
             let userListTr = document.createElement('tr');
             userListTr.classList.add('overlay-element');
             userListTable.appendChild(userListTr);
-            
+
             //TD - DATA HERE
             Object.entries(user).forEach(([key, value]) => {
                 let userListTd = document.createElement('td');
                 userListTd.classList.add('overlay-element');
-            
+
                 if (Array.isArray(value) && value.length > 1) {
                     value.forEach(item => {
-                        const textNode = document.createTextNode(item);
-                        userListTd.appendChild(textNode);
-                        userListTd.appendChild(document.createElement('br'));
+						if (key === 'teamId') {
+							const link = document.createElement('a');
+							link.setAttribute('href', `https://console.firebase.google.com/u/0/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${item}`)
+
+							const textNode = document.createTextNode(item);
+
+                        	link.appendChild(textNode);
+							userListTd.appendChild(link);
+                        	userListTd.appendChild(document.createElement('br'));
+						} else {
+                        	const textNode = document.createTextNode(item);
+                        	userListTd.appendChild(textNode);
+                        	userListTd.appendChild(document.createElement('br'));
+						}
                     });
                 } else {
                     if (key === 'teamId') {
                         const link = document.createElement('a');
                         link.textContent = value;
-                        link.setAttribute('href', 'https://www.google.com');
+                        link.setAttribute('href', `https://console.firebase.google.com/u/0/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${value}`);
                         userListTd.appendChild(link);
                     } else {
                         userListTd.textContent = value;
@@ -241,7 +252,7 @@ if (overlays.length > 0) {
 
                 userListTr.appendChild(userListTd);
             });
-            
+
         })
     }
 
@@ -278,7 +289,7 @@ if (overlays.length > 0) {
 				text-align: center;
 				margin: revert;
 				box-sizing: content-box;
-				line-height: normal;            
+				line-height: normal;
             }
 
             #user-list {
@@ -308,6 +319,22 @@ if (overlays.length > 0) {
             #user-list thead tr {
                 border: 1px solid black;
             }
+
+			#user-list td:nth-child(4n-3) {
+			width: 15%;
+			}
+
+			#user-list td:nth-child(4n-2) {
+			width: 35%;
+			}
+
+			#user-list td:nth-child(4n-1) {
+			width: 25%;
+			}
+
+			#user-list td:nth-child(4n-4) {
+			width: 25%;
+			}
         `;
         head.appendChild(style);
 }
