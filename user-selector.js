@@ -254,6 +254,54 @@ if (overlays.length > 0) {
             });
 
         })
+
+        //Arrow key controls
+        let selectedIndex = 0;
+
+        // Function to update row selection
+        function updateSelection(index) {
+            const rows = document.querySelectorAll('#user-list table tr:not(:first-child)');
+            if (rows.length === 0) return;
+
+            // Remove previous selection
+            rows.forEach(row => row.classList.remove('selected'));
+
+            // Ensure index is within bounds
+            if (index < 0) index = 0;
+            if (index >= rows.length) index = rows.length - 1;
+
+            // Highlight new row
+            selectedIndex = index;
+            rows[selectedIndex].classList.add('selected');
+        }
+
+        // Initial selection
+        setTimeout(() => updateSelection(0), 100); 
+
+        // Listen for keyboard navigation
+        document.addEventListener("keydown", function (event) {
+            const rows = document.querySelectorAll('#user-list table tr:not(:first-child)');
+            if (rows.length === 0) return;
+
+            if (event.key === "ArrowDown") {
+                event.preventDefault();
+                updateSelection(selectedIndex + 1);
+            } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                updateSelection(selectedIndex - 1);
+            }
+        });
+
+        /* PROG: Enter key control
+        document.addEventListener('keydown', function (event) {
+            const selectedRow = document.querySelector('.selected')
+            const selectedTd = selectedRow.querySelectorAll('td')
+
+            if (event.key === 'Enter') {
+                selectedTd[1].textContent = 'testCON'
+            }
+        })
+        */
     }
 
     //Style
@@ -335,14 +383,19 @@ if (overlays.length > 0) {
 			#user-list td:nth-child(4n-4) {
 			width: 25%;
 			}
+
+            .selected {
+                background-color: lightblue !important;
+                color: black;
+                font-weight: bold;
+            }
         `;
         head.appendChild(style);
 }
 
-//Shortcuts
-    //Escape: Close modal
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            document.querySelectorAll('.overlay-element').forEach(overlay => overlay.remove());
-        }
-    });
+//Escape: Close modal
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('.overlay-element').forEach(overlay => overlay.remove());
+    }
+});
