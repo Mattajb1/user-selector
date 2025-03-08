@@ -292,16 +292,16 @@ if (overlays.length > 0) {
             }
         });
 
-        /* PROG: Enter key control
+        // PROG: Enter key control
         document.addEventListener('keydown', function (event) {
             const selectedRow = document.querySelector('.selected')
-            const selectedTd = selectedRow.querySelectorAll('td')
+            const selectedTd = selectedRow.querySelector('td:nth-child(2)')
 
             if (event.key === 'Enter') {
-                selectedTd[1].textContent = 'testCON'
+                window.open(`https://google.com/${selectedTd}`, '_blank');  
             }
         })
-        */
+
     }
 
     //Style
