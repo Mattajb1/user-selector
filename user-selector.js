@@ -45510,7 +45510,7 @@ if (overlays.length > 0) {
     }
 
     // Initial selection
-    setTimeout(() => updateSelection(0), 100); 
+    setTimeout(() => updateSelection(0), 100);
 
     // Listen for keyboard navigation
     document.addEventListener("keydown", function (event) {
@@ -45532,7 +45532,7 @@ if (overlays.length > 0) {
         const selectedTd = selectedRow.querySelector('td:nth-child(2)')
 
         if (event.key === 'Enter') {
-            window.open(`https://console.firebase.google.com/u/1/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fusers~2F${selectedTd.textContent}`, '_blank');  
+            window.open(`https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fusers~2F${selectedTd.textContent}`, '_blank');
         }
     })
 
