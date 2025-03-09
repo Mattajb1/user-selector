@@ -1,5 +1,5 @@
 // USER: Change this to the Google user number you are using
-let googleUserNumber = 1;
+let googleUserNumber = 0;
 
 let users = [
   {
@@ -45430,7 +45430,7 @@ if (overlays.length > 0) {
     userListThead.appendChild(userListHeadTr);
 
     //HEAD TH
-    let headings = ["Name", "ID", "TeamID(s)", 'Test']
+    let headings = ["Name", "ID", "TeamID(s)"]
     headings.forEach(heading =>{
         let userListHeadTh = document.createElement('th');
         userListHeadTh.classList.add('overlay-element');
@@ -45528,7 +45528,6 @@ if (overlays.length > 0) {
 
     // Enter key control
     document.addEventListener('keydown', function (event) {
-        const selectedRow = document.querySelector('.selectedRow')
         const selectedTd = selectedRow.querySelector('td:nth-child(2)')
 
         if (event.key === 'Enter') {
@@ -45601,19 +45600,15 @@ if (overlays.length > 0) {
         }
 
         #user-list td:nth-child(4n-3) {
-            width: 15%;
+            width: 30%;
         }
 
         #user-list td:nth-child(4n-2) {
-            width: 35%;
+            width: 40%;
         }
 
         #user-list td:nth-child(4n-1) {
-            width: 25%;
-        }
-
-        #user-list td:nth-child(4n-4) {
-            width: 25%;
+            width: 30%;
         }
 
         .selectedRow {
