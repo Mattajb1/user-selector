@@ -155,7 +155,7 @@ if (overlays.length > 0) {
 
                 if (Array.isArray(value) && value.length > 1) {
                     value.forEach(item => {
-						if (key === 'teamId') {
+						if (key === 'teamid') {
 							const link = document.createElement('a');
 							link.setAttribute('href', `https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${item}`)
 
@@ -171,7 +171,7 @@ if (overlays.length > 0) {
 						}
                     });
                 } else {
-                    if (key === 'teamId') {
+                    if (key === 'teamid') {
                         const link = document.createElement('a');
                         link.textContent = value;
                         link.setAttribute('href', `https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${value}`);
