@@ -45528,6 +45528,7 @@ if (overlays.length > 0) {
 
     // Enter key control
     document.addEventListener('keydown', function (event) {
+        const selectedRow = document.querySelector('.selectedRow')
         const selectedTd = selectedRow.querySelector('td:nth-child(2)')
 
         if (event.key === 'Enter') {
