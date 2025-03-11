@@ -45375,24 +45375,31 @@ let overlays = document.querySelectorAll('.overlay-element');
 if (overlays.length > 0) {
     overlays.forEach(overlay => overlay.remove())
 } else {
-    //Shaded Background
+    // Shaded Background
     const background = document.createElement('div');
     background.classList.add('overlay-element');
     background.id = 'background';
     document.body.appendChild(background);
 
-    //Modal
+    // Modal
     const modal = document.createElement('div');
     modal.classList.add('overlay-element');
     modal.id = 'modal';
     background.appendChild(modal);
 
-    //Title
+    // Title
     const title = document.createElement('h2');
     title.classList.add('overlay-element');
     title.id = 'title'
     title.appendChild(document.createTextNode('FireHawk User Selector'));
     modal.appendChild(title);
+
+    // Close button (x)
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('overlay-element');
+    closeButton.id = 'close-button';
+    closeButton.textContent = 'x';
+    modal.appendChild(closeButton);
 
     // Search Bar (Insert Here)
     const searchInput = document.createElement('input');
@@ -45400,6 +45407,7 @@ if (overlays.length > 0) {
     searchInput.type = 'text';
     searchInput.placeholder = 'Search users';
     searchInput.id = 'search-input';
+    searchInput.setAttribute('autocomplete', 'off');
     modal.appendChild(searchInput);
 
     // Event Listener for Search
@@ -45408,28 +45416,28 @@ if (overlays.length > 0) {
         renderUsers(filter);
     });
 
-    //User list (table)
+    // User list (table)
     const userList = document.createElement('div');
     userList.classList.add('overlay-element');
     userList.id = 'user-list';
     modal.appendChild(userList);
 
-    //TABLE
+    // TABLE
     const userListTable = document.createElement('table');
     userListTable.classList.add('overlay-element');
     userList.appendChild(userListTable);
 
-    //THEAD
+    // THEAD
     const userListThead = document.createElement('thead');
     userListThead.classList.add('overlay-element');
     userListTable.appendChild(userListThead);
 
-    //HEAD TR
+    // HEAD TR
     const userListHeadTr = document.createElement('tr');
     userListHeadTr.classList.add('overlay-element');
     userListThead.appendChild(userListHeadTr);
 
-    //HEAD TH
+    // HEAD TH
     let headings = ["Name", "ID", "TeamID(s)"]
     headings.forEach(heading =>{
         let userListHeadTh = document.createElement('th');
@@ -45635,8 +45643,7 @@ if (overlays.length > 0) {
         }
 
         .selectedRow {
-            background-color: lightblue !important;
-            color: black;
+            border-left: 3px solid #005fcc;
             font-weight: bold;
         }
 
@@ -45660,6 +45667,33 @@ if (overlays.length > 0) {
           margin-top: 2px;
           margin-bottom: 2px;
         }
+
+        .overlay-element #search-input:focus {
+          border: 3px solid #005fcc;
+          border-radius: 5px;
+        }
+
+        #close-button {
+          font-family: sans-serif;
+          font-size: 14pt;
+          color: #000;
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          margin: 1px 1px;
+          padding: 1px 7px;
+          font-weight: 100;
+          border: none;
+          background-color: transparent;
+          appearance: none;
+          cursor: pointer;
+          line-height: normal;
+        }
+
+        #close-button:hover {
+          border: 1px solid #ccc;
+          padding: 0px 6px 2px 6px;
+        }
     `;
     head.appendChild(style);
 }
@@ -45669,4 +45703,10 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         document.querySelectorAll('.overlay-element').forEach(overlay => overlay.remove());
     }
+});
+
+//Close button: Close modal
+const closeButton = document.querySelector('#close-button');
+closeButton.addEventListener('click', function () {
+    document.querySelectorAll('.overlay-element').forEach(overlay => overlay.remove());
 });
