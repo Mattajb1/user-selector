@@ -45520,11 +45520,15 @@ if (overlays.length > 0) {
         if (event.key === "ArrowDown") {
             event.preventDefault();
             updateSelection(selectedIndex + 1);
+            document.querySelector('.selectedRow').scrollIntoView({ block: "nearest" });
         } else if (event.key === "ArrowUp") {
             event.preventDefault();
             updateSelection(selectedIndex - 1);
+            document.querySelector('.selectedRow').scrollIntoView({ block: "nearest" });
         }
     });
+
+    document.getElementById('search-input').focus();
 
     // Enter key control
     document.addEventListener('keydown', function (event) {
@@ -45534,6 +45538,24 @@ if (overlays.length > 0) {
         if (event.key === 'Enter') {
             window.open(`https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fusers~2F${selectedTd.textContent}`, '_blank');
         }
+    })
+
+    // Click control (Rows)
+    // Single click - Select
+    const rows = document.querySelectorAll('#user-list table tr:not(:first-child)');
+    rows.forEach(row => {
+      row.addEventListener('click', function () {
+        if (!row.classList.contains('selectedRow')) {
+          document.querySelector('.selectedRow').classList.remove('selectedRow');
+          row.classList.add('selectedRow');
+        }
+      })
+    })
+    // Double click - Open
+    document.addEventListener('dblclick', function () {
+      const selectedRow = document.querySelector('.selectedRow')
+      const selectedTd = selectedRow.querySelector('td:nth-child(2)')
+      window.open(`https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fusers~2F${selectedTd.textContent}`, '_blank');
     })
 
     //Style
@@ -45562,7 +45584,7 @@ if (overlays.length > 0) {
             box-sizing: border-box;
         }
 
-        .overlay-element .title {
+        .overlay-element #title {
             font-family: sans-serif;
             font-weight: 700;
             color: #000;
@@ -45574,19 +45596,21 @@ if (overlays.length > 0) {
 
         #user-list {
             width: 100%;
-            overflow: auto;
-            max-height: 500px;
+            overflow: scroll;
+            max-height: 480px;
         }
 
         #user-list table {
             width: 100%;
-            border: 1px solid black;
-            background-color: #dedcdc
+            border-collapse: collapse;
         }
 
         #user-list tr {
             height: 30px;
-            border-bottom: 1px solid black;
+        }
+
+        #user-list tr:nth-child(2n) {
+          background-color: #f5f5f5;
         }
 
         #user-list thead {
@@ -45594,10 +45618,8 @@ if (overlays.length > 0) {
             top: 0;
             background-color: #fff;
             z-index: 100;
-        }
-
-        #user-list thead tr {
-            border: 1px solid black;
+            font-family: sans-serif;
+            border-bottom: #aaa
         }
 
         #user-list td:nth-child(4n-3) {
@@ -45619,7 +45641,24 @@ if (overlays.length > 0) {
         }
 
         #user-list td {
+          font-family: sans-serif;
           vertical-align: top;
+          border-collapse: collapse;
+          border-bottom: 1px solid #aaa;
+        }
+
+        .overlay-element #search-input {
+          width: 100%;
+          font-family: sans-serif;
+          font-size: 11pt;
+          box-sizing: border-box;
+          color: #000;
+          background-color: #fff;
+          line-height: 20px;
+          border: 1px solid #aaa;
+          border-radius: 5px;
+          margin-top: 2px;
+          margin-bottom: 2px;
         }
     `;
     head.appendChild(style);
