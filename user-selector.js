@@ -97453,6 +97453,24 @@ let teams = [
   }
 ]
 
+// Map users array to reduce lag
+const searchableUsers = users.map(user => {
+  let searchText = '';
+
+  Object.values(user).forEach(value => {
+    if (Array.isArray(value)) {
+      searchText += value.join(' ').toLowerCase() + ' ';
+    } else {
+      searchText += String(value).toLowerCase() + ' ';
+    }
+  });
+
+  return {
+    user,
+    searchText: searchText.trim()
+  };
+});
+
 let overlays = document.querySelectorAll('.overlay-element');
 
 if (overlays.length > 0) {
@@ -97529,59 +97547,55 @@ if (overlays.length > 0) {
         userListHeadTr.appendChild(userListHeadTh);
     })
 
-    function renderUsers(filter = '') {
-        let fragment = document.createDocumentFragment();
+		// Render users from map
+		function renderUsers(filter = '') {
+			let filterText = filter.toLowerCase();
+			let fragment = document.createDocumentFragment();
 
-        // Remove existing rows (except header)
-        while (userListTable.rows.length > 1) {
-            userListTable.deleteRow(1);
-        }
+			while (userListTable.rows.length > 1) {
+				userListTable.deleteRow(1);
+			}
 
-        users.forEach(user => {
-            let text = JSON.stringify(user).toLowerCase(); // Ensure all values are searchable
-            if (filter === '' || text.includes(filter.toLowerCase())) {
-                let row = document.createElement('tr');
-                row.classList.add('overlay-element');
+			let count = 0;
+			const maxResults = 25;
 
-                Object.entries(user).forEach(([key, value]) => {
-                    let userListTd = document.createElement('td');
-                    userListTd.classList.add('overlay-element');
+			searchableUsers.forEach(({ user, searchText }) => {
+				if (count >= maxResults) return;
 
-                    if (key === 'teamId') {
-                        value.forEach(item => {
-                            const link = document.createElement('a');
-                            link.setAttribute('href', `https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${item}`);
+				if (filterText === '' || searchText.includes(filterText)) {
+					// Build row as before
+					let row = document.createElement('tr');
+					row.classList.add('overlay-element');
 
-                            let teamName = null;
-                            teams.forEach(team => {
-                              if (team.id === item) {
-                                teamName = team.teamName;
-                              }
-                            })
+					Object.entries(user).forEach(([key, value]) => {
+						let userListTd = document.createElement('td');
+						userListTd.classList.add('overlay-element');
 
-                            if (teamName) {
-                              link.textContent = teamName
-                            } else {
-                              link.textContent = item;
-                            }
+						if (key === 'teamId') {
+							value.forEach(item => {
+								const link = document.createElement('a');
+								link.setAttribute('href', `https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${item}`);
 
-                            userListTd.appendChild(link);
-                            userListTd.appendChild(document.createElement('br'));
-                        });
-                    } else {
-                        userListTd.textContent = Array.isArray(value) ? value.join(', ') : value;
-                    }
+								let teamName = teams.find(team => team.id === item)?.teamName || item;
+								link.textContent = teamName;
 
-                    row.appendChild(userListTd);
-                });
+								userListTd.appendChild(link);
+								userListTd.appendChild(document.createElement('br'));
+							});
+						} else {
+							userListTd.textContent = Array.isArray(value) ? value.join(', ') : value;
+						}
 
-                fragment.appendChild(row);
-            }
-        });
+						row.appendChild(userListTd);
+					});
 
-        // Append all rows at once
-        userListTable.appendChild(fragment);
-    }
+					fragment.appendChild(row);
+					count++;
+				}
+			});
+
+			userListTable.appendChild(fragment);
+		}
 
     // Initial render without filter
     renderUsers();
