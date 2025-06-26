@@ -1,11 +1,8 @@
 # user-selector
-WIP
+A selector to search and open Firehawk users
 
 ### TODO:
+- Add see more button to bottom row of table to increase maxResults +25 to render more users
 - Fix sticky thead gap and border
-- Styling (css)
-- Link to database
-- Additional event listeners (arrow controls, x button, enter, esc)
-- Add users via database rather than static array
+- Fix esc sometimes not working
 - Environment selector (FCRM, IVC, etc)
-- Href team id to database 
