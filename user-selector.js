@@ -61154,9 +61154,10 @@ if (overlays.length > 0) {
 		function increaseMaxResults() {
 			if (renderAmount < maxRender) {
 				renderAmount += 25;
-				renderUsers(); // re-render with increased amount
+					const currentFilter = document.getElementById('search-input').value;
+					renderUsers(currentFilter); // Re-render with updated filter
+				}
 			}
-		}
 
 		// Render users from map
 		function renderUsers(filter = '') {
@@ -61202,29 +61203,32 @@ if (overlays.length > 0) {
           // Check if no teamid key exists in current user
           let teamIdExists = 'teamid' in user;
 
-					Object.entries(user).forEach(([key, value]) => {
+					for (const [key, value] of Object.entries(user)) {
+						// Do not create td for archive key
+						if (key === 'archive') continue;
+
 						let userListTd = document.createElement('td');
 						userListTd.classList.add('overlay-element');
 
 						if (key === 'teamid') {
-              if (Array.isArray(value)) {
-                value.forEach(item => {
-                  const link = document.createElement('a');
-                  link.setAttribute('href', `https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${item}`);
+							if (Array.isArray(value)) {
+								value.forEach(item => {
+									const link = document.createElement('a');
+									link.setAttribute('href', `https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${item}`);
 
-                  let teamName = teams.find(team => team.id === item)?.name || item || 'N/A';
-                  link.textContent = teamName;
+									let teamName = teams.find(team => team.id === item)?.name || item || 'N/A';
+									link.textContent = teamName;
 
-                  userListTd.appendChild(link);
-                  userListTd.appendChild(document.createElement('br'));
-                });
-              }
+									userListTd.appendChild(link);
+									userListTd.appendChild(document.createElement('br'));
+								});
+							}
 						} else {
 							userListTd.textContent = Array.isArray(value) ? value.join(', ') : value;
 						}
 
 						row.appendChild(userListTd);
-					});
+					}
 
           // N/A for teamid
           if (!teamIdExists) {
