@@ -19,6 +19,7 @@ const fs = require('fs');
 const users = response.hits.hits.map(hit => ({
   name: hit._source.name,
   id: hit._id,
+	teamid: hit._source.teamId,
 	archive: hit._source.archive,
 }));
 
