@@ -5,7 +5,7 @@
 	GET /users/_search
 	{
 		"size": 9999,
-		"_source": ["name", "teamId"],
+		"_source": ["name", "teamId", "archive"],
 		"query": {
 			"match_all": {}
 		}
@@ -19,6 +19,7 @@ const fs = require('fs');
 const users = response.hits.hits.map(hit => ({
   name: hit._source.name,
   id: hit._id,
+	archive: hit._source.archive,
 }));
 
 fs.writeFileSync('response.json', JSON.stringify(users, null, 2), 'utf-8');
