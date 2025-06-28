@@ -61102,6 +61102,15 @@ if (overlays.length > 0) {
     closeButton.textContent = 'x';
     modal.appendChild(closeButton);
 
+    // Filters button
+    /* WIP
+    const filterButton = document.createElement('button');
+    filterButton.classList.add('overlay-element');
+    filterButton.id = 'filter-button';
+    filterButton.textContent = 'Filters';
+    modal.appendChild(filterButton);
+    */
+
     // Search Bar (Insert Here)
     const searchInput = document.createElement('input');
     searchInput.classList.add('overlay-element');
@@ -61210,7 +61219,12 @@ if (overlays.length > 0) {
 						let userListTd = document.createElement('td');
 						userListTd.classList.add('overlay-element');
 
-						if (key === 'teamid') {
+            if (key === 'name') {
+              userListTd.innerHTML = `<span class="overlay-element">${value}</span>`;
+              if (user.archive) {
+                userListTd.innerHTML += '<br> <span class="overlay-element" style="font-style: italic; color: red;">Archived</span>' ;
+              }
+            } else if (key === 'teamid') {
 							if (Array.isArray(value)) {
 								value.forEach(item => {
 									const link = document.createElement('a');
@@ -61311,6 +61325,7 @@ if (overlays.length > 0) {
         if (!row.classList.contains('selectedRow')) {
           document.querySelector('.selectedRow').classList.remove('selectedRow');
           row.classList.add('selectedRow');
+          console.log('123')
         }
       })
     })
