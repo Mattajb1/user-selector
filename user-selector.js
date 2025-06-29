@@ -61076,49 +61076,72 @@ let overlays = document.querySelectorAll('.overlay-element');
 if (overlays.length > 0) {
     overlays.forEach(overlay => overlay.remove())
 } else {
+    // Generate element function
+    function generateElement(elementType, elementId) {
+      const element = document.createElement(elementType);
+      element.classList.add('overlay-element');
+
+      if (elementId) {
+        element.id = elementId;
+      }
+
+      return element;
+    }  
+
     // Shaded Background
-    const background = document.createElement('div');
-    background.classList.add('overlay-element');
-    background.id = 'background';
+    const background = generateElement('div', 'background');
     document.body.appendChild(background);
 
     // Modal
-    const modal = document.createElement('div');
-    modal.classList.add('overlay-element');
-    modal.id = 'modal';
+    const modal = generateElement('div', 'modal');
     background.appendChild(modal);
 
     // Title
-    const title = document.createElement('h2');
-    title.classList.add('overlay-element');
-    title.id = 'title'
-    title.appendChild(document.createTextNode('FireHawk User Selector'));
+    const title = generateElement('h2', 'title')
+    title.textContent = 'FireHawk User Selector';
     modal.appendChild(title);
 
     // Close button (x)
-    const closeButton = document.createElement('button');
-    closeButton.classList.add('overlay-element');
-    closeButton.id = 'close-button';
-    closeButton.textContent = 'x';
+    const closeButton = generateElement('button', 'close-button');
+    closeButton.textContent = 'x'
     modal.appendChild(closeButton);
 
-    // Filters button
-    /* WIP
-    const filterButton = document.createElement('button');
-    filterButton.classList.add('overlay-element');
-    filterButton.id = 'filter-button';
-    filterButton.textContent = 'Filters';
-    modal.appendChild(filterButton);
+    /* Filters button - WIP
+      const filterButton = generateElement('button', 'filter-button');
+      filterButton.textContent = 'Filters';
+      modal.appendChild(filterButton);
     */
 
     // Search Bar (Insert Here)
-    const searchInput = document.createElement('input');
-    searchInput.classList.add('overlay-element');
+    const searchInput = generateElement('input', 'search-input');
     searchInput.type = 'text';
     searchInput.placeholder = 'Search users';
-    searchInput.id = 'search-input';
     searchInput.setAttribute('autocomplete', 'off');
     modal.appendChild(searchInput);
+
+    // User list (table)
+    const userList = generateElement('div', 'user-list');
+    modal.appendChild(userList);
+
+    // TABLE
+    const userListTable = generateElement('table');
+    userList.appendChild(userListTable);
+
+    // THEAD
+    const userListThead = generateElement('thead');
+    userListTable.appendChild(userListThead);
+
+    // HEAD TR
+    const userListHeadTr = generateElement('tr')
+    userListThead.appendChild(userListHeadTr);
+
+    // HEAD TH
+    let headings = ["Name", "ID", "TeamID(s)"]
+    headings.forEach(heading => {
+        let userListHeadTh = generateElement('th')
+        userListHeadTh.textContent = heading;
+        userListHeadTr.appendChild(userListHeadTh);
+    })
 
     // Event Listener for Search
     searchInput.addEventListener('input', function () {
@@ -61126,49 +61149,19 @@ if (overlays.length > 0) {
         renderUsers(filter);
     });
 
-    // User list (table)
-    const userList = document.createElement('div');
-    userList.classList.add('overlay-element');
-    userList.id = 'user-list';
-    modal.appendChild(userList);
-
-    // TABLE
-    const userListTable = document.createElement('table');
-    userListTable.classList.add('overlay-element');
-    userList.appendChild(userListTable);
-
-    // THEAD
-    const userListThead = document.createElement('thead');
-    userListThead.classList.add('overlay-element');
-    userListTable.appendChild(userListThead);
-
-    // HEAD TR
-    const userListHeadTr = document.createElement('tr');
-    userListHeadTr.classList.add('overlay-element');
-    userListThead.appendChild(userListHeadTr);
-
-    // HEAD TH
-    let headings = ["Name", "ID", "TeamID(s)"]
-    headings.forEach(heading =>{
-        let userListHeadTh = document.createElement('th');
-        userListHeadTh.classList.add('overlay-element');
-        userListHeadTh.textContent = heading;
-        userListHeadTr.appendChild(userListHeadTh);
-    })
-
-		// Function to see more, increase rendered users
+		//See more functionality, increases rendered users on table
 		let renderAmount = 25;
 		const maxRender = 1000;
 
 		function increaseMaxResults() {
-			if (renderAmount < maxRender) {
-				renderAmount += 25;
-					const currentFilter = document.getElementById('search-input').value;
-					renderUsers(currentFilter); // Re-render with updated filter
-				}
-			}
+      if (renderAmount < maxRender) {
+        renderAmount += 25;
+        const currentFilter = document.getElementById('search-input').value;
+        renderUsers(currentFilter); // Re-render with updated filter
+      }
+    }
 
-		// Render users from map
+		// Render users
 		function renderUsers(filter = '') {
 			let filterText = filter.toLowerCase();
 			let fragment = document.createDocumentFragment();
@@ -61182,17 +61175,15 @@ if (overlays.length > 0) {
 			users.forEach(user => {
 				if (count > renderAmount) return;
 
-				// See more row
+				// Create see more elements
 				if (count === renderAmount) {
-					let seeMoreRow = document.createElement('tr');
-					seeMoreRow.classList.add('overlay-element');
+          let seeMoreRow = generateElement('tr');
 
-					let seeMoreTd = document.createElement('td');
-					seeMoreTd.classList.add('overlay-element', 'see-more');
+          let seeMoreTd = generateElement('td');
+					seeMoreTd.classList.add('see-more');
 					seeMoreTd.colSpan = 3;
 
-
-					let seeMoreButton = document.createElement('button');
+          let seeMoreButton = generateElement('button')
 					seeMoreButton.textContent = 'See more';
 					seeMoreButton.onclick = () => increaseMaxResults();
 
@@ -61206,8 +61197,7 @@ if (overlays.length > 0) {
 
 				if (filterText === '' || (typeof user.name === 'string' && user.name.toLowerCase().includes(filterText))) {
 					// Build row as before
-					let row = document.createElement('tr');
-					row.classList.add('overlay-element');
+          let row = generateElement('tr');
 
           // Check if no teamid key exists in current user
           let teamIdExists = 'teamid' in user;
@@ -61216,8 +61206,7 @@ if (overlays.length > 0) {
 						// Do not create td for archive key
 						if (key === 'archive') continue;
 
-						let userListTd = document.createElement('td');
-						userListTd.classList.add('overlay-element');
+            let userListTd = generateElement('td');
 
             if (key === 'name') {
               userListTd.innerHTML = `<span class="overlay-element">${value}</span>`;
@@ -61227,14 +61216,14 @@ if (overlays.length > 0) {
             } else if (key === 'teamid') {
 							if (Array.isArray(value)) {
 								value.forEach(item => {
-									const link = document.createElement('a');
+                  const link = generateElement('a');
 									link.setAttribute('href', `https://console.firebase.google.com/u/${googleUserNumber}/project/fcrm-e17b0/database/fcrm-e17b0/data/~2Fteams~2F${item}`);
 
 									let teamName = teams.find(team => team.id === item)?.name || item || 'N/A';
 									link.textContent = teamName;
 
 									userListTd.appendChild(link);
-									userListTd.appendChild(document.createElement('br'));
+									userListTd.appendChild(generateElement('br'));
 								});
 							}
 						} else {
@@ -61246,8 +61235,7 @@ if (overlays.length > 0) {
 
           // N/A for teamid
           if (!teamIdExists) {
-            let userListTd = document.createElement('td');
-						userListTd.classList.add('overlay-element');
+            let userListTd = generateElement('td');
 
             userListTd.textContent = 'N/A';
             row.appendChild(userListTd);
